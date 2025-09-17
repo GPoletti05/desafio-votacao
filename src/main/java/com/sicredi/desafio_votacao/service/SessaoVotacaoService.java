@@ -96,6 +96,7 @@ public class SessaoVotacaoService {
 
     public SessaoVotacao encerrarSessao(Long sessaoId) {
 
+        // Busca a sessao e verifica se esta de acordo para encerrar.
         SessaoVotacao sessao = sessaoVotacaoRepository.findById(sessaoId)
                 .orElseThrow(() -> new SessaoVotacaoException("Sessão não encontrada para ID: " + sessaoId));
 
@@ -126,7 +127,7 @@ public class SessaoVotacaoService {
                 .filter(v -> v.getEscolha() == EscolhaVoto.NAO)
                 .count();
 
-        // Definir status da pauta (so será considerado aprovada se for voto da maioria, não havendo empate)
+        // Definir status da pauta (somente será considerado aprovada se for voto da maioria, não havendo empate)
         Pauta pauta = sessao.getPauta();
         if (totalSim > totalNao) {
             pauta.setStatus(StatusPauta.APROVADA);
